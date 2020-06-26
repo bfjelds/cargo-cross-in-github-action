@@ -1,0 +1,18 @@
+FROM rustembedded/cross:x86_64-unknown-linux-gnu-0.1.16
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends pkg-config \
+            g++ ca-certificates curl libssl-dev \
+            libv4l-dev libudev-dev
+
+# Workaround for https://github.com/rust-embedded/cross/issues/260
+# Add local version of Rust to crossbuild container so that the
+# host Rust is NOT used
+RUN apt-get update && apt-get install -y curl
+RUN mkdir -m777 /opt/rust /opt/cargo
+ENV RUSTUP_HOME=/opt/rust CARGO_HOME=/opt/cargo PATH=/opt/cargo/bin:$PATH
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -x -s -- -y
+RUN rustup target add x86_64-unknown-linux-gnu
+RUN cargo install cross
+RUN printf '#!/bin/sh\nexport CARGO_HOME=/opt/cargo\nexport PATH=$RUSTUP_HOME/bin:$CARGO_HOME/bin:$PATH\nexec /bin/sh "$@"\n' >/usr/local/bin/sh
+RUN chmod +x /usr/local/bin/sh

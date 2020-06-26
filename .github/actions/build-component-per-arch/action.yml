@@ -1,0 +1,45 @@
+name: 'build-component-per-arch'
+description: 'Build Per-Arch Component and Container'
+inputs:
+  dockerfile:
+    description: Component-specific Dockerfile
+    required: true
+  acr_repo:
+    description: Azure Container Registry
+    required: true
+  acr_name:
+    description: Azure Container Registry name
+    required: true
+  acr_password:
+    description: Azure Container Registry password
+    required: true
+  container_name:
+    description: Component container name
+    required: true
+  makefile_component_name:
+    description: Component prefix used by Makefile
+    required: true
+  platform:
+    description: Platform to build (amd64|arm64|arm32)
+    required: true
+  build_rust:
+    description: Specify whether rust is being built
+    required: true
+  github_event_name:
+    description: Specify the github event name (push, pull_request, release, etc)
+    required: true
+  github_ref:
+    description: Specify the github ref
+    required: true
+  github_event_action:
+    description: Specify the github event action (i.e. closed)
+    required: true
+  github_merged:
+    description: Specify whether a PR has been merged
+    required: true
+  do_not_build:
+    description: Specify projects to not build
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

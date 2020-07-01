@@ -1,0 +1,24 @@
+{
+    "name": "crossbuild-actions",
+    "version": "1.0.0",
+    "description": "Trying to run Cargo Cross in GH actions",
+    "main": "main.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/bfjelds/cargo-cross-in-github-action.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/bfjelds/cargo-cross-in-github-action/issues"
+    },
+    "homepage": "https://github.com/bfjelds/cargo-cross-in-github-action#readme",
+    "dependencies": {
+      "@actions/core": "^1.2.3",
+      "child_process": "^1.0.2",
+    }
+  }

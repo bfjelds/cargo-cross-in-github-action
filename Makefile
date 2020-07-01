@@ -115,6 +115,7 @@ ifeq (1, ${BUILD_ARM32})
 endif
 foo-docker-build-arm64:
 ifeq (1, ${BUILD_ARM64})
+	echo docker build $(CACHE_OPTION) -f $(DOCKERFILE_DIR)/Dockerfile.foo . -t $(PREFIX)/foo-rust:$(LABEL_PREFIX)-$(ARM64V8_SUFFIX) --build-arg PLATFORM=$(ARM64V8_SUFFIX) --build-arg CROSS_BUILD_TARGET=$(ARM64V8_TARGET)
 	docker build $(CACHE_OPTION) -f $(DOCKERFILE_DIR)/Dockerfile.foo . -t $(PREFIX)/foo-rust:$(LABEL_PREFIX)-$(ARM64V8_SUFFIX) --build-arg PLATFORM=$(ARM64V8_SUFFIX) --build-arg CROSS_BUILD_TARGET=$(ARM64V8_TARGET)
 endif
 

@@ -28,6 +28,9 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
+    # Install deps
+    - name: Install Deps
+      run: npm ci
     - name: Create /github/workspace link for Docker-in-Docker references
       run: |
         sudo mkdir /github

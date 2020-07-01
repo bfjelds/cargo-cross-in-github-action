@@ -56,8 +56,8 @@ const fs = require("fs");
             // console.log(`Filter projects in [${core.getInput('do_not_build')}]`)
             // await exec.exec(`for PROJECT_NOT_TO_BUILD in $INPUT_DO_NOT_BUILD; do sed -i s/\"..\"$PROJECT_NOT_TO_BUILD\"/\"/g Cargo.toml; done`);
             // console.log(`Filtered Cargo.toml contents: ${fs.readFileSync("./Cargo.toml").toString()}`)
-            console.log(`Cross compile: sonar-cross-build-${makefile_target_suffix}`)
-            await exec.exec(`make sonar-cross-build-${makefile_target_suffix}`)
+            console.log(`Cross compile: foo-cross-build-${makefile_target_suffix}`)
+            await exec.exec(`make foo-cross-build-${makefile_target_suffix}`)
         } else {
             console.log(`Not building Rust: ${core.getInput('build_rust')}`)
         }

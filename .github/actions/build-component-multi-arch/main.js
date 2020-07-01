@@ -8,7 +8,7 @@ const fs = require("fs");
         console.log(`Start main.js`)
 
         var dev_suffix = (core.getInput('github_event_name') == "release") ? "" : "-dev";
-        const versioned_label = `v${fs.readFileSync('./version.txt').toString()}${dev_suffix}`;
+        const versioned_label = `v${fs.readFileSync('./version.txt').toString().trim()}${dev_suffix}`;
         const latest_label = `latest${dev_suffix}`;
         console.log(`Use labels: versioned=${versioned_label} latest=${latest_label}`);
 

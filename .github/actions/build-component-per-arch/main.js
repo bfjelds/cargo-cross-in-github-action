@@ -11,7 +11,7 @@ const fs = require("fs");
         await exec.exec('docker run --rm --privileged multiarch/qemu-user-static --reset -p yes');
 
         var dev_suffix = (core.getInput('github_event_name') == "release") ? "" : "-dev";
-        const versioned_label = `v${fs.readFileSync('./version.txt').toString()}${dev_suffix}`;
+        const versioned_label = `v${fs.readFileSync('./version.txt').toString().trim()}${dev_suffix}`;
         const latest_label = `latest${dev_suffix}`;
         console.log(`Use labels: versioned=${versioned_label} latest=${latest_label}`);
 
@@ -64,7 +64,7 @@ const fs = require("fs");
 
         process.env.PREFIX = `${core.getInput('acr_repo')}`
 
-        console.log(`Build the versioned container: make foo-build-${makefile_target_suffix}`)
+        console.log(`Build the versioned container: make foo-docker-build-${makefile_target_suffix}`)
         process.env.LABEL_PREFIX = `${versioned_label}`
         await exec.exec(`make foo-docker-build-${makefile_target_suffix}`)
 

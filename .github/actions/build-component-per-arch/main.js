@@ -52,10 +52,10 @@ const fs = require("fs");
             console.log(`Install Cross`)
             await exec.exec('make install-cross')
             await exec.exec('cross --version')
-            console.log(`Cargo.toml contents: ${fs.readFileSync("./Cargo.toml").toString()}`)
-            console.log(`Filter projects in [${core.getInput('do_not_build')}]`)
-            await exec.exec(`for PROJECT_NOT_TO_BUILD in $INPUT_DO_NOT_BUILD; do sed -i s/\"..\"$PROJECT_NOT_TO_BUILD\"/\"/g Cargo.toml; done`);
-            console.log(`Filtered Cargo.toml contents: ${fs.readFileSync("./Cargo.toml").toString()}`)
+            // console.log(`Cargo.toml contents: ${fs.readFileSync("./Cargo.toml").toString()}`)
+            // console.log(`Filter projects in [${core.getInput('do_not_build')}]`)
+            // await exec.exec(`for PROJECT_NOT_TO_BUILD in $INPUT_DO_NOT_BUILD; do sed -i s/\"..\"$PROJECT_NOT_TO_BUILD\"/\"/g Cargo.toml; done`);
+            // console.log(`Filtered Cargo.toml contents: ${fs.readFileSync("./Cargo.toml").toString()}`)
             console.log(`Cross compile: sonar-cross-build-${makefile_target_suffix}`)
             await exec.exec(`make sonar-cross-build-${makefile_target_suffix}`)
         } else {

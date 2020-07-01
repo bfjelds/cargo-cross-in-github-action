@@ -62,18 +62,24 @@ const fs = require("fs");
             console.log(`Not building Rust: ${core.getInput('build_rust')}`)
         }
 
-        console.log(`Build the versioned container: make ${core.getInput('component_name')}-build-${makefile_target_suffix}`)
-        await exec.exec(`LABEL_PREFIX=${versioned_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-build-${makefile_target_suffix}`)
+        process.env.PREFIX = `${core.getInput('acr_repo')}`
 
-        console.log(`Build the latest container: make ${core.getInput('component_name')}-build-${makefile_target_suffix}`)
-        await exec.exec(`LABEL_PREFIX=${latest_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-build-${makefile_target_suffix}`)
+        console.log(`Build the versioned container: make foo-build-${makefile_target_suffix}`)
+        process.env.LABEL_PREFIX = `${versioned_label}`
+        await exec.exec(`make foo-docker-build-${makefile_target_suffix}`)
+
+        console.log(`Build the latest container: make foo-build-${makefile_target_suffix}`)
+        process.env.LABEL_PREFIX = `${latest_label}`
+        await exec.exec(`make foo-docker-build-${makefile_target_suffix}`)
 
         if (push_containers == "1") {
-            console.log(`Push the versioned container: make ${core.getInput('component_name')}-docker-per-arch-${makefile_target_suffix}`)
-            await exec.exec(`LABEL_PREFIX=${versioned_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-docker-per-arch-${makefile_target_suffix}`)
+            console.log(`Push the versioned container: make foo-docker-push-per-arch-${makefile_target_suffix}`)
+            process.env.LABEL_PREFIX = `${versioned_label}`
+            await exec.exec(`make foo-docker-push-per-arch-${makefile_target_suffix}`)
 
-            console.log(`Push the latest container: make ${core.getInput('component_name')}-docker-per-arch-${makefile_target_suffix}`)
-            await exec.exec(`LABEL_PREFIX=${latest_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-docker-per-arch-${makefile_target_suffix}`)
+            console.log(`Push the latest container: make foo-docker-push-per-arch-${makefile_target_suffix}`)
+            process.env.LABEL_PREFIX = `${latest_label}`
+            await exec.exec(`make foo-docker-push-per-arch-${makefile_target_suffix}`)
         } else {
             console.log(`Not pushing containers: ${push_containers}`)
         }

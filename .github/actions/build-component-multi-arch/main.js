@@ -15,23 +15,29 @@ const fs = require("fs");
         console.log(`Login into Container Registry repo=${core.getInput('acr_name')} user=${core.getInput('acr_repo')}`)
         await exec.exec(`echo "${core.getInput('acr_password')}" | docker login -u ${core.getInput('acr_name')} --password-stdin ${core.getInput('acr_repo')}`);
 
+        process.env.DOCKER_CLI_EXPERIMENTAL = `enabled`
+        process.env.PREFIX = `${core.getInput('acr_repo')}`
+        process.env.LABEL_PREFIX = `${versioned_label}`
+
         console.log(`echo Create multi-arch versioned manifest`)
-        await exec.exec(`LABEL_PREFIX=${versioned_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-docker-multi-arch-create`)
+        await exec.exec(`make foo-docker-push-multi-arch-create`)
 
         console.log(`echo Inspect multi-arch versioned manifest`)
-        await exec.exec(`DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ${core.getInput('acr_repo')}/${core.getInput('container_name')}:${versioned_label}`)
+        await exec.exec(`docker manifest inspect ${core.getInput('acr_repo')}/${core.getInput('container_name')}:${versioned_label}`)
 
         console.log(`echo Push multi-arch versioned manifest`)
-        await exec.exec(`LABEL_PREFIX=${versioned_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-docker-multi-arch-push`)
+        await exec.exec(`make foo-docker-push-multi-arch-push`)
+
+        process.env.LABEL_PREFIX = `${latest_label}`
 
         console.log(`echo Create multi-arch latest manifest`)
-        await exec.exec(`LABEL_PREFIX=${latest_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-docker-multi-arch-create`)
+        await exec.exec(`make foo-docker-push-multi-arch-create`)
 
         console.log(`echo Inspect multi-arch latest manifest`)
-        await exec.exec(`DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ${core.getInput('acr_repo')}/${core.getInput('container_name')}:${latest_label}`)
+        await exec.exec(`docker manifest inspect ${core.getInput('acr_repo')}/${core.getInput('container_name')}:${latest_label}`)
 
         console.log(`echo Push multi-arch latest manifest`)
-        await exec.exec(`LABEL_PREFIX=${latest_label} PREFIX=${core.getInput('acr_repo')} make ${core.getInput('component_name')}-docker-multi-arch-push`)
+        await exec.exec(`make foo-docker-push-multi-arch-push`)
     } catch (error) {
         core.setFailed(error);
     }        

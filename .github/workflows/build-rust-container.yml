@@ -28,9 +28,21 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
-    # Install deps
-    - name: Install Deps
-      run: npm ci
+
+    - name: Use Node.js 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Install
+      run: |
+        npm ci
+
     - name: Create /github/workspace link for Docker-in-Docker references
       run: |
         sudo mkdir /github

@@ -37,7 +37,7 @@ jobs:
     - name: Install Deps
       run: |
         yarn install
-        yarn add @actions/core @actions/github fs
+        yarn add @actions/core @actions/github @actions/exec fs
 
     - name: Create /github/workspace link for Docker-in-Docker references
       run: |

@@ -1,3 +1,4 @@
+const exec = require('@actions/exec');
 const core = require('@actions/core');
 const child_process = require('child_process');
 const fs = require("fs");

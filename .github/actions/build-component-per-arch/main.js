@@ -38,12 +38,7 @@ const fs = require("fs");
         console.log(`Makefile build target suffix: ${makefile_target_suffix}`)
 
         console.log(`Login into Container Registry repo=${core.getInput('acr_name')} user=${core.getInput('acr_repo')}`)
-        await exec.exec('docker', [
-            'login', 
-            '-u', core.getInput('acr_name'), 
-            '-p', core.getInput('acr_password'), 
-            core.getInput('acr_repo')
-        ]);
+        await exec.exec(`echo "${core.getInput('acr_password')}" | docker login -u ${core.getInput('acr_name')} --password-stdin ${core.getInput('acr_repo')}`);
 
 
         if (core.getInput('build_rust') == '1') {

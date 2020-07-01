@@ -41,5 +41,5 @@ inputs:
     description: Specify projects to not build
     required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node12'
+  main: 'main.js'
